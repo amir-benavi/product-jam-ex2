@@ -1,0 +1,84 @@
+# ex2 plan and progress
+
+Due **Wed Nov 11, 14:00**; Wed morning is spare time for fixes. Tick boxes as
+you go; Claude reads this file at the start of every session (it is imported by
+`CLAUDE.md`), so keep it current.
+
+**Critical path:** the designer. Part 3 needs their Figma link, a meeting to
+decide the responsive layout, and their pull request merged before the deadline.
+Message them first.
+
+## Phase A: setup (you, by hand; Mon Nov 9)
+
+Claude can't do these: they need your accounts and secret keys.
+
+- [ ] Message the designer: get the Figma link, book a meeting for Tue
+- [ ] Copy `ex2/answers.md` from the course repo to the repo root
+- [ ] Supabase project → `cp .env.example .env` → fill it in
+      (`docs/02-supabase-setup.md`)
+- [ ] `npx supabase login`, `link`, `db push`; turn off "Confirm email"
+- [ ] `localhost:3000/api/health` says `{ "ok": true, "database": "ok" }`, and
+      you can sign up and log in
+- [ ] Gemini key in `.env` as `GEMINI_API_KEY` (and `NASA_API_KEY`), no `VITE_`
+- [ ] Rename `name` in `wrangler.jsonc`, commit, push
+- [ ] Cloudflare deploy (`docs/04-deploy.md`): build command empty, deploy
+      command `npm run deploy`, secrets `SUPABASE_SECRET_KEY`, `GEMINI_API_KEY`,
+      `NASA_API_KEY`
+- [ ] Supabase Auth URL configuration with the live address
+- [ ] GitHub variable `DEPLOY_URL` + run "Keep Supabase awake"
+- [ ] Live `/api/health` ok and login works
+
+## Phase B: Part 0, design first (Mon Nov 9)
+
+Session: new session, **plan mode**. "Read Part 0, 1 and 2 of the spec and help
+me write `docs/design.md`."
+
+- [ ] Answer question 1 in `answers.md` (trace the `events` request yourself)
+- [ ] `docs/design.md`: tables, endpoints with errors and tables touched, one
+      trade-off
+- [ ] Add both keys to `Bindings` in `server/env.ts`
+- [ ] **Commit and push `docs/design.md` before any Part 1/2 code**
+
+## Phase C: Part 1, tic-tac-toe `four` (Mon Nov 9)
+
+Session: new session. `/add-feature games`.
+
+- [ ] `shared/game/` pure rules + tests (all win lines, draw, invalid moves)
+- [ ] `/tic-tac-toe` page: board, turn, result, new game, CSS module
+- [ ] Migration `games`, `db push`
+- [ ] `POST` sends moves, server replays and saves its own result
+- [ ] List of my games, newest first, with result and time
+- [ ] `security-reviewer` agent → fix → `/ship`
+
+## Phase D: Part 2, space pictures (Mon Nov 9)
+
+Session: new session. `/add-feature apod`.
+
+- [ ] Server: random pictures (≤20) from `apod-basic`, clean HTML, own errors
+      when NASA fails
+- [ ] Server: explain by date → NASA → Gemini (structured output) → Zod check →
+      save; return the saved one next time
+- [ ] `/nasa` page: cards, explain button, loading/error/thinking states
+- [ ] "What changed and why": the NASA endpoint change
+- [ ] `security-reviewer` agent → fix → `/ship`
+
+## Phase E: Part 3, design to code (Tue Nov 10)
+
+Session: new session. `/figma-to-code <figma link>`.
+
+- [ ] Mobile design on `/design`, checked on a real phone on the live app
+- [ ] Meet the designer: phone, tablet, desktop; agree on wider layouts
+      (`.claude/assignment/design-questions.md`)
+- [ ] Build the responsive version, check it with them again
+- [ ] Designer added as collaborator, clones, runs it, opens a PR
+- [ ] Review, merge, see it live. Save the PR URL
+
+## Phase F: Part 4 and submit (Tue Nov 10)
+
+- [ ] Home page: new content + links to `/tic-tac-toe`, `/nasa`, `/design`
+- [ ] `docs/design.md` **What changed and why** complete
+- [ ] `answers.md` complete, variant (`four`) at the top
+- [ ] Two fresh test accounts on the live app
+- [ ] All pages work on the live app, not only locally
+- [ ] Comment on the submission issue: repo URL, live URL, designer PR URL, two
+      test accounts
