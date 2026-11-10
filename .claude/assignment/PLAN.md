@@ -36,10 +36,10 @@ Session: new session, **plan mode**. "Read Part 0, 1 and 2 of the spec and help
 me write `docs/design.md`."
 
 - [ ] Answer question 1 in `answers.md` (trace the `events` request yourself)
-- [ ] `docs/design.md`: tables, endpoints with errors and tables touched, one
+- [x] `docs/design.md`: tables, endpoints with errors and tables touched, one
       trade-off
-- [ ] Add both keys to `Bindings` in `server/env.ts`
-- [ ] **Commit and push `docs/design.md` before any Part 1/2 code**
+- [x] Add both keys to `Bindings` in `server/env.ts`
+- [x] **Commit and push `docs/design.md` before any Part 1/2 code**
 
 ## Phase C: Part 1, tic-tac-toe `four` (Mon Nov 9)
 
