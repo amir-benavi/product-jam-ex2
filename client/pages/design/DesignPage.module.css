@@ -8,6 +8,29 @@
   These colours and fonts are used only on this page, so they live here and
   not in client/styles/tokens.css: the rest of the app keeps its own look.
 */
+
+/* The designer's fonts, from client/public/fonts/. SimplerPro is a paid
+   font. font-display: swap shows the fallback font until these arrive. */
+@font-face {
+  font-family: "SimplerPro";
+  src: url("/fonts/SimplerPro-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SimplerPro Condensed";
+  src: url("/fonts/SimplerPro_Condensded-Bold.otf") format("opentype");
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Manufacturing Consent";
+  src: url("/fonts/ManufacturingConsent-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-display: swap;
+}
 .page {
   --wz-text: rgb(246 246 246 / 0.94); /* light text on the dark background */
   --wz-tagline: #e7e7e7;
@@ -21,10 +44,11 @@
   --wz-button-light: #ffffff;
   --wz-button-text: #000000;
 
-  /* Figma uses SimplerPro, which is a paid font, so the kit's Rubik stands
-     in for it. Manufacturing Consent is loaded from Google Fonts in
-     client/index.html. */
-  --wz-font: var(--font-titles);
+  /* Figma's three text styles: body text, the bold condensed subheadings,
+     and the display font for big names and numbers. Figma's mono font is
+     missing, so the condensed bold stands in for it. */
+  --wz-font: "SimplerPro", var(--font-body);
+  --wz-font-bold: "SimplerPro Condensed", var(--font-body);
   --wz-font-display: "Manufacturing Consent", var(--font-titles);
 
   --wz-gutter: 1.5625rem; /* 25px on each side of the 440px frame */
@@ -57,7 +81,7 @@
 .specialtyName,
 .postText,
 .lookingForHeading {
-  font-family: var(--wz-font);
+  font-family: var(--wz-font-bold);
   font-size: 1.4756rem;
   font-weight: 700;
   line-height: 1.8027rem;
@@ -97,7 +121,7 @@
 
 .productHeading {
   color: #f6f6f6;
-  font-family: var(--wz-font);
+  font-family: var(--wz-font-bold);
   font-size: 1.5859rem;
   font-weight: 700;
   line-height: 1.9375rem;
@@ -206,6 +230,7 @@
   border-end-end-radius: 3.8513rem;
   background-color: var(--wz-lime);
   color: var(--wz-lime-text);
+  font-family: var(--wz-font-bold);
   font-size: 1.286rem;
   font-weight: 700;
   line-height: 1.5712rem;
@@ -281,6 +306,7 @@
 
 .aboutTagline {
   color: var(--wz-tagline);
+  font-family: var(--wz-font-bold);
   font-size: 1.4756rem;
   font-weight: 700;
   line-height: 1.8027rem;
@@ -392,6 +418,12 @@
 .features {
   padding: 0;
   list-style: none;
+}
+
+/* Figma has SimplerPro Bold here, which we don't have; the condensed bold is
+   the closest real bold (a faked bold of the regular looks smeared). */
+.features strong {
+  font-family: var(--wz-font-bold);
 }
 
 /* === Specialties ======================================================== */
