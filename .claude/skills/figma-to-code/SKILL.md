@@ -29,6 +29,9 @@ Then, with the Figma MCP tools, on the frame in `$ARGUMENTS`:
 If the link has no `node-id` (a whole file or page, not one frame), ask for a
 "Copy link to selection" link to the frame.
 
+Note the frame's width from what came back (for example 440px). That is the
+**design width**: the width the build must match, whatever device it is.
+
 **Every call counts against a monthly limit** (a Collab seat gets about 20).
 Read the design once, keep what came back, and don't call these tools again to
 re-check: compare against the screenshot you already have.
@@ -43,22 +46,39 @@ Write down, and show the user, a short mapping:
 - Figma px → `rem` (1rem = 16px).
 - Figma pieces → kit components (`client/components/`) or new markup.
 - Text direction and language of the design (Hebrew → RTL).
-- Images and icons to download from the asset URLs `get_design_context` gave
-  into `client/public/design/`. Those URLs are temporary: download them right
-  away, and leave no Figma URL in the code.
+- Which parts are **style guide, not page**: colour swatches labelled with their
+  hex codes, type specimens, the designer's notes. Don't build them; use them as
+  the source for tokens. If a part could be either, ask the user.
+- Images and icons to export into `client/public/design/`.
 
 ## 3. Build it, mobile first
 
 Semantic HTML, a CSS module, logical properties, `rem`, flexbox/grid. Match the
-design at 375px wide. Don't build desktop yet.
+design at the **design width**, not at a fixed 375px. Don't fix anything to that
+width: smaller phones must work too. Don't build tablet or desktop yet.
 
-Check it in the browser at 375px against the Figma screenshot and list the
-differences.
+Check it in the browser at the design width against the Figma screenshot and
+list the differences. Then check 375px and 360px: nothing overflows or scrolls
+sideways.
 
-## 4. Wider screens are the designer's decision
+Stop here and wait for the user to approve the mobile version.
 
-**Don't guess** the tablet and desktop layout. Append the open questions to
-`.claude/assignment/design-questions.md` (create it if missing): what happens to
-each section at ~768px and ~1280px, max content width, what grows, what moves.
-Implement wider layouts only after the user brings back the designer's answers,
-as `min-width` media queries.
+## 4. Wider screens: you propose, the designer decides
+
+The spec says the wider layouts are decided **with the designer**, so whatever
+you build here is a draft for them to review.
+
+When the user asks for the proposal:
+
+- Keep the mobile layout exactly as it is. Add `min-width` media queries for
+  ~768px and ~1280px.
+- Decide the max content width, and what happens above ~1440px.
+- In `.claude/assignment/design-questions.md` (create it if missing), for each
+  section of the page write what you chose at 768 and at 1280, why, and one
+  alternative you rejected. Under each, leave an empty `Designer's notes:` line
+  for the user to fill in at the meeting.
+- Check at 360px, the design width, 768, 1280 and 1600px.
+
+When the user brings back the designer's notes, apply them, mark each one done
+in `design-questions.md`, and check the same widths again. The mobile version
+must still match the design.
