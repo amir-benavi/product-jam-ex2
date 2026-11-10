@@ -1,0 +1,125 @@
+.page {
+  max-inline-size: var(--content-width-narrow);
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-4);
+}
+
+.rules {
+  margin-block-start: var(--space-1);
+  color: var(--color-text-muted);
+}
+
+.status {
+  margin-block: var(--space-6) var(--space-3);
+  font-size: var(--text-xl);
+  font-weight: 600;
+}
+
+/* 4×4, square, and never wider than the screen. */
+.board {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-2);
+  inline-size: 100%;
+  max-inline-size: 24rem;
+  aspect-ratio: 1;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-titles);
+  font-size: var(--text-2xl);
+  font-weight: 700;
+  cursor: pointer;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.cell:hover:not(:disabled) {
+  background: var(--color-surface-hover);
+}
+
+.cell:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-accent);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cell[data-mark="x"] {
+  color: var(--color-accent);
+}
+
+.cell[data-mark="o"] {
+  color: var(--color-success);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  margin-block-start: var(--space-6);
+}
+
+.saveNote {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text-muted);
+}
+
+.saveError {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-danger);
+}
+
+.historyTitle {
+  margin-block: var(--space-8) var(--space-3);
+}
+
+.centered {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--space-8);
+}
+
+.empty {
+  color: var(--color-text-muted);
+}
+
+.history {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.historyItem {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-2);
+}
+
+.historyResult {
+  font-weight: 600;
+}
+
+.historyMeta {
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
