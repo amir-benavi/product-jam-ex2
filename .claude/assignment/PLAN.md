@@ -13,20 +13,22 @@ Message them first.
 Claude can't do these: they need your accounts and secret keys.
 
 - [ ] Message the designer: get the Figma link, book a meeting for Tue
-- [ ] Copy `ex2/answers.md` from the course repo to the repo root
-- [ ] Supabase project → `cp .env.example .env` → fill it in
+- [x] Copy `ex2/answers.md` from the course repo to the repo root
+- [x] Supabase project → `cp .env.example .env` → fill it in
       (`docs/02-supabase-setup.md`)
-- [ ] `npx supabase login`, `link`, `db push`; turn off "Confirm email"
-- [ ] `localhost:3000/api/health` says `{ "ok": true, "database": "ok" }`, and
+- [x] `npx supabase login`, `link`, `db push`; turn off "Confirm email" (CLI v3:
+      `db push --remote`, run in your own terminal, not `!`)
+- [x] `localhost:3000/api/health` says `{ "ok": true, "database": "ok" }`, and
       you can sign up and log in
-- [ ] Gemini key in `.env` as `GEMINI_API_KEY` (and `NASA_API_KEY`), no `VITE_`
-- [ ] Rename `name` in `wrangler.jsonc`, commit, push
-- [ ] Cloudflare deploy (`docs/04-deploy.md`): build command empty, deploy
-      command `npm run deploy`, secrets `SUPABASE_SECRET_KEY`, `GEMINI_API_KEY`,
-      `NASA_API_KEY`
-- [ ] Supabase Auth URL configuration with the live address
-- [ ] GitHub variable `DEPLOY_URL` + run "Keep Supabase awake"
-- [ ] Live `/api/health` ok and login works
+- [x] Gemini key in `.env` as `GEMINI_API_KEY` (and `NASA_API_KEY`), no `VITE_`
+- [x] Rename `name` in `wrangler.jsonc`, commit, push (`product-jam-ex2`)
+- [x] Cloudflare deploy (`docs/04-deploy.md`): build command empty, deploy
+      command `npm run deploy`, **runtime** secrets (not under Build)
+      `SUPABASE_SECRET_KEY`, `GEMINI_API_KEY`, `NASA_API_KEY`
+- [x] Supabase Auth URL configuration with the live address
+- [x] GitHub variable `DEPLOY_URL` (no trailing `/`) + run "Keep Supabase awake"
+- [x] Live `/api/health` ok and login works
+      (https://product-jam-ex2.benv-amir.workers.dev)
 
 ## Phase B: Part 0, design first (Mon Nov 9)
 
