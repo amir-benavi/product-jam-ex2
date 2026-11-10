@@ -54,7 +54,7 @@ Designer's notes:
 ## Profile (photo, stats, about card, skills)
 
 - **768:** photo and stats on the left, the about card on the right; under them,
-  "Varified Skills" with the two skills side by side, then "Experience".
+  "Verified Skills" with the two skills side by side, then "Experience".
 - **1280:** like a profile page: photo, stats and the about card in a narrower
   column on the left (5/12), skills and experience on the right (7/12).
 - **Why:** the about card and the stats are about the person, the skills are
@@ -62,7 +62,17 @@ Designer's notes:
 - **Rejected:** keeping the phone's single column, only wider. The skill rows
   would be ~1400px wide with a lot of empty space in them.
 
-Designer's notes:
+Designer's notes (desktop, 1280px and up):
+
+- [x] **Stats (12 Connections, 5 Followers) are cramped.** More room between
+      each number and its label, and inside the box, growing with the screen
+      width up to a maximum (`clamp()`).
+- [x] **"For all those Wizards living among us." on a new line.** Each sentence
+      is its own `<span>`, shown as a block on desktop. The phone layout is
+      unchanged.
+- [x] **"Message" button on the left.** Aligned to the start side.
+- [x] **"Verified Skills" and "Experience on Wizzin" side by side**, in two
+      columns.
 
 ## The light bands ("למי שמחפש", "למי שמחפשים אותו", "מה אנחנו בונים")
 
@@ -74,6 +84,9 @@ Designer's notes:
 - **Rejected:** bands as boxes 1440px wide, like the cards.
 
 Designer's notes:
+
+- [x] **"הזמנה למשימה" text** changed to "תיאור קצר, עם שליחה ואישור" (at every
+      width, phone included). "הזמנה למשימה" stays bold.
 
 ## Specialties (8 cards)
 
@@ -95,7 +108,12 @@ Designer's notes:
   onto two lines.
 - **Rejected:** two columns from 768.
 
-Designer's notes:
+Designer's notes (desktop, 1280px and up):
+
+- [x] **The two posts the same height.** In Sue's post, "In serious need of a
+      solution." starts on a new line. Whenever the posts sit side by side, both
+      cards are as tall as the taller one, with "Apply to Mission" at the bottom
+      of each.
 
 ## Not changed (yet)
 

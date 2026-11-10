@@ -369,6 +369,12 @@
   gap: 1.3125rem;
 }
 
+/* On phones and tablets the two groups are not boxes: their headings and
+   rows sit directly in .details. Desktops put them side by side. */
+.detailsGroup {
+  display: contents;
+}
+
 .detailsHeading {
   opacity: 0.75;
 }
@@ -789,15 +795,65 @@
     grid-area: about;
   }
 
-  .details {
-    grid-area: details;
+  /* Designer's note 1: more room between each number and its label, and
+     inside the box, growing with the screen width. */
+  .stats {
+    column-gap: clamp(0.5rem, -1rem + 3vw, 2.5rem);
+    padding-block: clamp(1.4375rem, -0.5rem + 3vw, 3rem);
+    padding-inline: clamp(1.125rem, -1rem + 3.5vw, 3rem);
   }
 
-  /* The two mission posts side by side. */
+  .stat {
+    gap: clamp(0.75rem, -0.5rem + 2vw, 1.75rem);
+  }
+
+  /* Designer's note 2 (and 4, in Sue's post): this sentence starts on its own
+     line. */
+  .sentence {
+    display: block;
+    /* No single word alone on the last line ("too." at 1280px). */
+    text-wrap: pretty;
+  }
+
+  /* Designer's note 3: the Message button on the start side (the left, as
+     this part is in English). */
+  .about {
+    align-items: flex-start;
+  }
+
+  /* Designer's note 6: "Verified Skills" and "Experience on Wizzin" in two
+     columns, so the skills are one under the other again. */
+  .details {
+    grid-area: details;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--wz-columns-gap);
+  }
+
+  .detailsGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 1.3125rem;
+  }
+
+  .skills {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The two mission posts side by side. Grid stretches both cards to the
+     taller one's height (designer's note 4). */
   .posts {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
     column-gap: var(--wz-columns-gap);
+  }
+
+  /* The free space goes above the button, so it sits at the bottom of both
+     cards whatever their text. */
+  .applyButton {
+    margin-block-start: auto;
   }
 
   /* Side by side, Ray's extra room from the phone frame makes his post look

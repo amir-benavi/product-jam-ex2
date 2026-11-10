@@ -99,9 +99,15 @@ export default function DesignPage() {
           <div className={styles.aboutCard}>
             <h2 className={styles.aboutName}>Wizzin</h2>
             <p className={styles.aboutTagline}>LinkedIn for Wizards</p>
+            {/* One span per sentence, so desktops can start the second
+                sentence on its own line (.sentence in the CSS). */}
             <p className={styles.aboutText}>
-              An easier way to find Missions and Manage them too. For all those
-              Wizards living among us.
+              <span className={styles.sentence}>
+                An easier way to find Missions and Manage them too.
+              </span>{" "}
+              <span className={styles.sentence}>
+                For all those Wizards living among us.
+              </span>
             </p>
           </div>
           <span className={`${styles.fakeButton} ${styles.messageButton}`}>
@@ -109,38 +115,43 @@ export default function DesignPage() {
           </span>
         </div>
 
+        {/* Two groups, side by side on desktops (.detailsGroup in the CSS). */}
         <div className={styles.details}>
-          <h3 className={styles.detailsHeading}>Verified Skills</h3>
-          <ul className={styles.skills}>
-            <li className={styles.skill}>
-              <img src="/design/icon-verified-skills.svg" alt="" />
+          <div className={styles.detailsGroup}>
+            <h3 className={styles.detailsHeading}>Verified Skills</h3>
+            <ul className={styles.skills}>
+              <li className={styles.skill}>
+                <img src="/design/icon-verified-skills.svg" alt="" />
+                <div className={styles.rowText}>
+                  <p className={styles.rowTitle}>Verifies Skills and Degrees</p>
+                  <p className={styles.rowSubtitle}>You can always trust us</p>
+                </div>
+                <img src="/design/icon-check.svg" alt="" />
+              </li>
+              <li className={`${styles.skill} ${styles.skillTall}`}>
+                <img src="/design/icon-discreet.svg" alt="" />
+                <div className={styles.rowText}>
+                  <p className={styles.rowTitle}>Discreet</p>
+                  <p className={styles.rowSubtitle}>
+                    The App will only appear when a wizrad recognized by the OWO
+                  </p>
+                </div>
+                <img src="/design/icon-check.svg" alt="" />
+              </li>
+            </ul>
+          </div>
+
+          <div className={styles.detailsGroup}>
+            <h3 className={styles.detailsHeading}>Experience on Wizzin</h3>
+            <div className={styles.experience}>
               <div className={styles.rowText}>
-                <p className={styles.rowTitle}>Verifies Skills and Degrees</p>
-                <p className={styles.rowSubtitle}>You can always trust us</p>
-              </div>
-              <img src="/design/icon-check.svg" alt="" />
-            </li>
-            <li className={`${styles.skill} ${styles.skillTall}`}>
-              <img src="/design/icon-discreet.svg" alt="" />
-              <div className={styles.rowText}>
-                <p className={styles.rowTitle}>Discreet</p>
+                <p className={styles.rowTitle}>Love Potion for Cupid</p>
                 <p className={styles.rowSubtitle}>
-                  The App will only appear when a wizrad recognized by the OWO
+                  Art Rainforest, Atlanta, 2021
                 </p>
               </div>
-              <img src="/design/icon-check.svg" alt="" />
-            </li>
-          </ul>
-
-          <h3 className={styles.detailsHeading}>Experience on Wizzin</h3>
-          <div className={styles.experience}>
-            <div className={styles.rowText}>
-              <p className={styles.rowTitle}>Love Potion for Cupid</p>
-              <p className={styles.rowSubtitle}>
-                Art Rainforest, Atlanta, 2021
-              </p>
+              <img src="/design/icon-arrow.svg" alt="" />
             </div>
-            <img src="/design/icon-arrow.svg" alt="" />
           </div>
         </div>
       </section>
@@ -191,7 +202,10 @@ export default function DesignPage() {
           </header>
           <p className={styles.postText}>
             Quicksand has been spreading all over Porkville City. High risk of
-            CURSE! In serious need of a solution.
+            CURSE!{" "}
+            <span className={styles.sentence}>
+              In serious need of a solution.
+            </span>
           </p>
           <div className={styles.lookingFor}>
             <h3 className={styles.lookingForHeading}>Looking for:</h3>
@@ -259,8 +273,7 @@ export default function DesignPage() {
             והמלצות
           </li>
           <li>
-            <strong>הזמנה למשימה</strong> - תיאור קצר, שליחה ואישור שהפנייה
-            נשלחה
+            <strong>הזמנה למשימה</strong> - תיאור קצר, עם שליחה ואישור
           </li>
         </ul>
       </section>
