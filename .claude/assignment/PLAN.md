@@ -68,7 +68,7 @@ Session: new session. `/add-feature apod`.
       save; return the saved one next time
 - [x] `/nasa` page: cards, explain button, loading/error/thinking states
 - [x] "What changed and why": the NASA endpoint change
-- [ ] `security-reviewer` agent → fix → `/ship`
+- [x] `security-reviewer` agent → fix → `/ship` (pushed `f27b28d`)
 
 ## Phase E: Part 3, design to code (Tue Nov 10)
 

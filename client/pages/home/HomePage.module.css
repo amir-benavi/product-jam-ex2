@@ -1,5 +1,65 @@
+.page {
+  max-inline-size: var(--content-width);
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-4);
+}
+
+.intro {
+  max-inline-size: var(--content-width-narrow);
+  margin-block: var(--space-2) var(--space-8);
+  color: var(--color-text-muted);
+}
+
+/* One card per row on a phone; as many 16rem columns as fit when wider. */
+.parts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.parts > li {
+  display: flex;
+}
+
+/* The whole card is the link, so it is easy to tap on a phone. */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  inline-size: 100%;
+  padding: var(--space-4);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+  transition: background var(--duration-fast) var(--ease-out);
+}
+
+.card:hover {
+  background: var(--color-surface-hover);
+}
+
+.card:focus-visible {
+  outline: var(--focus-ring-width) solid var(--color-accent);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.cardTitle {
+  font-size: var(--text-lg);
+  color: var(--color-accent);
+}
+
+.note {
+  margin-block-start: auto;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
 .logos {
   display: flex;
   gap: var(--space-4);
-  margin-block: var(--space-4);
+  margin-block-start: var(--space-8);
 }

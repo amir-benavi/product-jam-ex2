@@ -1,77 +1,75 @@
-import { useQuery } from "@tanstack/react-query";
 import { Link } from "react-router";
-import { api } from "../../lib/api";
 import { useAuth } from "../../lib/auth";
 import styles from "./HomePage.module.css";
 
-type Me = { id: string; email: string };
+/** One card on the home page: a part of the assignment and where it lives. */
+type Part = {
+  to: string;
+  title: string;
+  description: string;
+  needsLogin: boolean;
+};
+
+const PARTS: Part[] = [
+  {
+    to: "/tic-tac-toe",
+    title: "Tic-tac-toe: four",
+    description:
+      "Two players, one screen, a 4×4 board: four in a row wins. The server replays every game before it saves the result.",
+    needsLogin: true,
+  },
+  {
+    to: "/nasa",
+    title: "Space pictures",
+    description:
+      "Random pictures from NASA's Astronomy Picture of the Day, explained in Hebrew by Gemini for a 10 year old.",
+    needsLogin: true,
+  },
+  {
+    to: "/design",
+    title: "Design to code",
+    description:
+      "A mobile design by my designer partner, built from Figma and made responsive together.",
+    needsLogin: false,
+  },
+];
 
 /**
- * The home page. Replace all of this with your own app.
- *
- * Once you are logged in, it shows the two halves of the system talking to
- * each other: the browser knows who you are from Supabase, and /api/me
- * proves the SERVER agrees - it checked your token before answering.
+ * The home page: what this app is, and a link to each part of ex2. The
+ * pages that need a login send you to log in first, so the cards only say
+ * so; they don't hide anything.
  */
 export default function HomePage() {
   const { user } = useAuth();
 
-  const meQuery = useQuery({
-    queryKey: ["me"],
-    queryFn: () => api<Me>("/api/me"),
-    // Only ask once we know somebody is logged in.
-    enabled: Boolean(user),
-  });
-
   return (
-    <main>
-      <h2>Welcome to the Product Jam Starter Kit</h2>
-      <p>
-        Feel free to look around, edit the source code and navigate to the
-        demos. This page is client/pages/home/HomePage.tsx.
+    <main className={styles.page}>
+      <h1>Product Jam, assignment 2</h1>
+      <p className={styles.intro}>
+        A web app with a real backend: a database I designed, an API that
+        doesn&apos;t trust the browser, and a feature that uses an LLM. Built on
+        the course starter kit, with React, Hono on Cloudflare Workers, and
+        Supabase.
       </p>
+
+      <ul className={styles.parts}>
+        {PARTS.map((part) => (
+          <li key={part.to}>
+            <Link to={part.to} className={styles.card}>
+              <h2 className={styles.cardTitle}>{part.title}</h2>
+              <p>{part.description}</p>
+              {part.needsLogin && !user ? (
+                <span className={styles.note}>Needs a login</span>
+              ) : null}
+            </Link>
+          </li>
+        ))}
+      </ul>
 
       <div className={styles.logos}>
         <img src="/huji.svg" alt="HUJI Logo" width="80" height="80" />
         <img src="/bezalel.svg" alt="Bezalel Logo" width="80" height="80" />
       </div>
-
-      {user ? (
-        <>
-          <p>
-            The server knows you as:{" "}
-            <strong>
-              {meQuery.isPending
-                ? "Checking..."
-                : meQuery.isError
-                  ? "Error"
-                  : meQuery.data.email}
-            </strong>
-          </p>
-          <p>
-            <Link to="/events">My events</Link>
-          </p>
-        </>
-      ) : null}
-
-      <h2>Lorem Ipsum</h2>
-      <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec faucibus
-        sit amet nunc nec vehicula. Fusce ornare nec nulla non imperdiet. Fusce
-        vel sodales justo. Sed efficitur arcu lorem, at iaculis odio ultricies
-        et. Duis rutrum urna nec elit bibendum, sed hendrerit nulla posuere.
-        Vestibulum vestibulum, ante non tincidunt posuere, dui arcu lacinia
-        nisl, nec rhoncus massa arcu ac ipsum. Nam congue interdum tortor, eu
-        dignissim massa scelerisque vitae.
-      </p>
-      <ul>
-        <li>
-          Aliquam maximus tellus sed lacus venenatis, ac cursus eros mollis.
-        </li>
-        <li>In id ante sed sem pharetra molestie et vitae arcu.</li>
-        <li>Cras pharetra turpis at pretium elementum.</li>
-        <li>Donec ultrices felis vel lectus auctor iaculis.</li>
-      </ul>
     </main>
   );
 }
