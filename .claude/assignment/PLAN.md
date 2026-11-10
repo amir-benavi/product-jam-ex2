@@ -52,8 +52,11 @@ Session: new session. `/add-feature games`.
 - [x] `POST` sends moves, server replays and saves its own result
 - [x] List of my games, newest first, with result and time
 - [x] Checked at 375, 768 and 1280px
-- [ ] `security-reviewer` agent → fix → `/ship`
-- [ ] `answers.md` questions 2-4 (3 and 4 need screenshots, see below)
+- [x] `security-reviewer` agent → fix → `/ship` (pushed `361571b`)
+- [x] `answers.md` questions 2-4
+- [ ] Screenshots for questions 3 and 4: `screenshots/q3-cheating.png`,
+      `screenshots/q4-other-user.png` (take them on the live app, check the
+      answers' text still matches)
 
 ## Phase D: Part 2, space pictures (Mon Nov 9)
 
