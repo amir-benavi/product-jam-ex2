@@ -16,6 +16,11 @@ export type Bindings = {
   /** The SECRET key (sb_secret_...). It bypasses all database rules.
    *  Never send this to the browser. Never put it in a VITE_ variable. */
   SUPABASE_SECRET_KEY: string;
+  /** NASA API key. Part 2's apod-basic endpoint doesn't need it, but the
+   *  assignment asks for it to be set. Server only. */
+  NASA_API_KEY: string;
+  /** Gemini API key, for explaining pictures in Part 2. Server only. */
+  GEMINI_API_KEY: string;
 };
 
 /** Things our own middleware adds to the request, for handlers to read. */
