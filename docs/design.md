@@ -171,5 +171,53 @@ spell out, and one decision:
   cap answering `409`.
 - **`GET /api/games` answers the latest 50 games, not all of them.** The second
   security review pointed out that, without a limit, a user who saves thousands
-  of games makes their own list slow to load and to draw. 50 is more than
-  anyone scrolls through.
+  of games makes their own list slow to load and to draw. 50 is more than anyone
+  scrolls through.
+
+### Part 2 - space pictures
+
+- **A different NASA endpoint.** The design was written for
+  `api.nasa.gov/planetary/apod`. Since September it answers placeholder pictures
+  for `count`, and often today's explanation whatever `date` you ask for, so on
+  November 8 the course moved to `science.nasa.gov/wp-json/wp/v2/apod-basic`. It
+  needs no key, answers pages of pictures newest first (`page`, `per_page`, at
+  most 25 a page), and one date as `apod-basic/YYMMDD` (`404` if there is no
+  picture). The image is in `hdurl`; `url` is NASA's article. The endpoints of
+  our own API didn't change: the browser still only talks to our server.
+- **Cleaning NASA's HTML.** `explanation` is HTML: it starts with
+  `<strong>Explanation:</strong>`, has links, and recent ones end with
+  "Tomorrow's picture: …". `cleanHtml()` in `server/lib/nasa.ts` turns it into
+  plain text before it is shown or sent to Gemini.
+- **The random page is from a constant.** With 20 a page there were 574 pages on
+  2026-11-10, the last one part-full, so the server picks one of the first 573.
+- **`hdurl` is sometimes NASA's logo.** For some days (most of 1995, some of
+  1998, many video days) `apod-basic` answers the same placeholder,
+  `.../misc/news-thumbnail.png`, as `hdurl`; in a sample of 185 pictures, 34 had
+  it. The title and explanation of those days are real, so Gemini still explains
+  them correctly. On an image day the real picture is in the article's HTML
+  (`basic_html`), so `imageUrl()` in `server/lib/nasa.ts` takes the first image
+  there that is on NASA's own server. A video day has none, only a YouTube
+  player, so `image_url` is `null` and the card says so. This is why `image_url`
+  being nullable, in the original design, turned out to matter.
+- **What the security review changed.** A saved explanation is shown to
+  everyone and never replaced, so Gemini's answer is now checked more
+  strictly: the title and summary must be mostly Hebrew letters, with no HTML
+  and no links, and each tag may appear only once. A second migration adds
+  the title and summary length limits to the table too. The browser may only
+  load images from `assets.science.nasa.gov`. NASA's text is sent to Gemini
+  inside `<title>` and `<explanation>` tags, and cut at 8,000 characters.
+- **Known limitation: "never pay twice" can fail under parallel requests.**
+  The route checks for a saved explanation, then calls Gemini, then saves.
+  Those steps aren't one atomic step, so if many requests for the same new
+  date arrive at the same moment, each one finds nothing saved and each one
+  calls Gemini. Only one answer is saved (`on conflict (date) do nothing`),
+  and everyone gets that one, so users never see different answers; the
+  others are paid for and thrown away. Also, an answer that fails the Zod
+  check is not saved, so a date Gemini always answers badly costs a call
+  every time someone tries it. I chose not to fix this now: it needs someone
+  logged in sending requests on purpose, and the most it costs is a few extra
+  free-tier calls per date. The fix would be a small `explanation_claims`
+  table: a request first inserts a claim for the date, only the request whose
+  insert worked calls Gemini, the others answer `409` ("being explained, try
+  again in a moment"), and a failed call deletes its claim. With a per-user
+  limit on explain requests, that would also cover the retry case.

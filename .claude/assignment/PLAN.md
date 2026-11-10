@@ -62,12 +62,12 @@ Session: new session. `/add-feature games`.
 
 Session: new session. `/add-feature apod`.
 
-- [ ] Server: random pictures (≤20) from `apod-basic`, clean HTML, own errors
+- [x] Server: random pictures (≤20) from `apod-basic`, clean HTML, own errors
       when NASA fails
-- [ ] Server: explain by date → NASA → Gemini (structured output) → Zod check →
+- [x] Server: explain by date → NASA → Gemini (structured output) → Zod check →
       save; return the saved one next time
-- [ ] `/nasa` page: cards, explain button, loading/error/thinking states
-- [ ] "What changed and why": the NASA endpoint change
+- [x] `/nasa` page: cards, explain button, loading/error/thinking states
+- [x] "What changed and why": the NASA endpoint change
 - [ ] `security-reviewer` agent → fix → `/ship`
 
 ## Phase E: Part 3, design to code (Tue Nov 10)

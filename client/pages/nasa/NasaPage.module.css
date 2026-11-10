@@ -1,0 +1,139 @@
+.page {
+  max-inline-size: var(--content-width);
+  margin-inline: auto;
+  padding: var(--space-8) var(--space-4);
+}
+
+/* The title and "More pictures": side by side when they fit, else stacked. */
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-block-end: var(--space-6);
+}
+
+.intro,
+.muted,
+.date {
+  color: var(--color-text-muted);
+}
+
+.intro {
+  margin-block-start: var(--space-1);
+}
+
+.centered {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  padding-block: var(--space-8);
+  color: var(--color-text-muted);
+}
+
+/* One column on a phone; as many 20rem columns as fit on wider screens. */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: var(--space-4);
+  padding: 0;
+  list-style: none;
+}
+
+.grid > li {
+  display: flex;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  inline-size: 100%;
+  overflow: hidden;
+}
+
+/* Every image the same shape, cropped, so the cards line up. */
+.image,
+.noImage {
+  inline-size: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  background: var(--color-surface-hover);
+}
+
+.noImage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-muted);
+  font-size: var(--text-sm);
+}
+
+.body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-4);
+}
+
+.title {
+  font-size: var(--text-lg);
+}
+
+.date {
+  font-size: var(--text-sm);
+}
+
+/* NASA's explanations are long: show six lines, scroll for the rest. */
+.explanation {
+  max-block-size: calc(6 * 1.5em);
+  overflow-y: auto;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
+/* Pushed to the bottom, so the buttons line up across a row of cards. */
+.explain {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-2);
+  margin-block-start: auto;
+  padding-block-start: var(--space-2);
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: var(--text-sm);
+}
+
+.hebrew {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin-block-start: auto;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  background: var(--color-surface-hover);
+}
+
+.hebrewTitle {
+  font-size: var(--text-base);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  padding: 0;
+  list-style: none;
+}
+
+.tag {
+  padding: var(--space-1) var(--space-2);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: var(--text-xs);
+}

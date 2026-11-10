@@ -3,6 +3,7 @@ import type { ApiError } from "@shared/index";
 import type { AppEnv } from "./env";
 import { fail } from "./lib/errors";
 import { requireAuth } from "./middleware/auth";
+import { apod } from "./routes/apod";
 import { events } from "./routes/events";
 import { games } from "./routes/games";
 import { health } from "./routes/health";
@@ -33,6 +34,7 @@ app.use("/api/*", requireAuth);
 app.route("/api/me", me);
 app.route("/api/events", events);
 app.route("/api/games", games);
+app.route("/api/apod", apod);
 app.route("/api/uploads", uploads);
 
 // Any /api/* URL we did not define above. Without this, an unknown API URL
