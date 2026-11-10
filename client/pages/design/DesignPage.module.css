@@ -1,3 +1,550 @@
-.title {
-  font-size: var(--text-3xl);
+/*
+  The designer's Wizzin page, from their mobile Figma frame (440px wide).
+  Mobile only for now: wider layouts get decided with the designer.
+
+  Sizes are Figma's px / 16 (1rem = 16px). The design does not use the kit's
+  4/8/12/16 spacing scale, so the values are copied as they are.
+
+  These colours and fonts are used only on this page, so they live here and
+  not in client/styles/tokens.css: the rest of the app keeps its own look.
+*/
+.page {
+  --wz-text: rgb(246 246 246 / 0.94); /* light text on the dark background */
+  --wz-tagline: #e7e7e7;
+  --wz-panel: rgb(0 0 0 / 0.73); /* the see-through dark cards */
+  --wz-solid: #000000; /* the solid dark rows (skills, experience) */
+  --wz-band: rgb(255 255 255 / 0.83); /* the light Hebrew bands */
+  --wz-band-text: #000000;
+  --wz-lime: #bceb44; /* "Available" */
+  --wz-lime-text: #05070f;
+  --wz-button: #ededed;
+  --wz-button-light: #ffffff;
+  --wz-button-text: #000000;
+
+  /* Figma uses SimplerPro, which is a paid font, so the kit's Rubik stands
+     in for it. Manufacturing Consent is loaded from Google Fonts in
+     client/index.html. */
+  --wz-font: var(--font-titles);
+  --wz-font-display: "Manufacturing Consent", var(--font-titles);
+
+  --wz-gutter: 1.5625rem; /* 25px on each side of the 440px frame */
+
+  /* Undo the kit's centred, padded <main> (client/styles/global.css): the
+     background runs edge to edge. */
+  max-width: none;
+  padding: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.875rem;
+  background: var(--wz-solid) url("/design/background.png") center top / cover;
+  color: var(--wz-text);
+  font-family: var(--wz-font);
+}
+
+/* Every block is as wide as the page, minus the gutters. */
+.page > * {
+  inline-size: 100%;
+}
+
+/* Shared text styles: Figma's "כותרת משנית" (subheading) and "טקסט רץ"
+   (body text). */
+.introHeading,
+.detailsHeading,
+.rowTitle,
+.bandHeading,
+.specialtyName,
+.postText,
+.lookingForHeading {
+  font-family: var(--wz-font);
+  font-size: 1.4756rem;
+  font-weight: 700;
+  line-height: 1.8027rem;
+}
+
+.bullets,
+.introText,
+.aboutText,
+.bandText,
+.features,
+.postRole,
+.lookingForList {
+  font-size: 1.0625rem;
+  line-height: 1.4375rem;
+}
+
+/* === Opening text (Hebrew) ============================================== */
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 1.875rem;
+  padding: 3.875rem var(--wz-gutter);
+}
+
+.introBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+}
+
+.bullets {
+  padding: 0;
+  /* "•  " before each line, as in Figma, on the right in Hebrew. */
+  list-style: "•  " inside;
+}
+
+.productHeading {
+  color: #f6f6f6;
+  font-family: var(--wz-font);
+  font-size: 1.5859rem;
+  font-weight: 700;
+  line-height: 1.9375rem;
+}
+
+/* === Logo =============================================================== */
+
+.logo {
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--wz-gutter);
+}
+
+.logo img {
+  /* Shrinks on phones narrower than the design, never grows. */
+  inline-size: 24.3379rem;
+  max-inline-size: 100%;
+  block-size: auto;
+}
+
+/* === Photos ============================================================= */
+/*
+  Figma crops each photo by placing a bigger image inside a frame. The
+  percentages are Figma's, and aspect-ratio keeps the frame's shape when it
+  shrinks, so the crop stays the same.
+*/
+
+.photo {
+  position: relative;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.photo img {
+  position: absolute;
+  max-inline-size: none;
+}
+
+.profilePhoto {
+  aspect-ratio: 160 / 126;
+  border-start-start-radius: 2.5402rem;
+  border-start-end-radius: 2.5402rem;
+}
+
+.profilePhoto img {
+  inset-block-start: -26.53%;
+  inset-inline-start: -20.06%;
+  inline-size: 140.47%;
+  block-size: 229.05%;
+}
+
+.suePhoto {
+  inline-size: 6.0419rem;
+  aspect-ratio: 96.671 / 108.818;
+  border-radius: 1.7537rem;
+}
+
+.suePhoto img {
+  inset-block-start: -12.74%;
+  inset-inline-start: -23.84%;
+  inline-size: 160.21%;
+  block-size: 183.44%;
+}
+
+.rayPhoto {
+  inline-size: 6.1551rem;
+  aspect-ratio: 98.482 / 110.447;
+  border-radius: 1.7833rem;
+}
+
+.rayPhoto img {
+  inset-block-start: -4.53%;
+  inset-inline-start: -7.46%;
+  inline-size: 123.35%;
+  block-size: 164.98%;
+}
+
+/* === Profile (English sample) =========================================== */
+
+.profile {
+  display: flex;
+  flex-direction: column;
+  gap: 1.0625rem;
+  padding-inline: var(--wz-gutter);
+}
+
+.profileTop {
+  display: flex;
+  align-items: center;
+  gap: 1.0625rem;
+}
+
+/* The photo gives way first when the phone is narrower than the design. */
+.profilePhotoColumn {
+  flex: 0 2 10rem;
+  min-inline-size: 0;
+}
+
+.available {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  block-size: 1.875rem;
+  padding-block: 0.7375rem 0.5736rem;
+  border-end-start-radius: 5.3262rem;
+  border-end-end-radius: 3.8513rem;
+  background-color: var(--wz-lime);
+  color: var(--wz-lime-text);
+  font-size: 1.286rem;
+  font-weight: 700;
+  line-height: 1.5712rem;
+}
+
+.stats {
+  flex: 1 1 13.3125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Not in Figma: keeps "Connections" and "Followers" apart on narrow phones. */
+  column-gap: 0.5rem;
+  min-block-size: 9.75rem;
+  padding: 1.4375rem 1.125rem;
+  border-radius: 3.0318rem;
+  background-color: var(--wz-panel);
+}
+
+.stat {
+  display: flex;
+  /* The number (<dd>) comes after its label in the HTML, but shows on top. */
+  flex-direction: column-reverse;
+  gap: 0.75rem;
+  flex: 0 1 5.8178rem;
+  text-align: center;
+}
+
+.stat + .stat {
+  flex-basis: 5.2443rem;
+}
+
+.statCount {
+  font-family: var(--wz-font-display);
+  font-size: 4.86rem;
+  line-height: 4.2714rem;
+}
+
+/* Figma puts the first number at the start of its column. */
+.stat:first-child .statCount {
+  text-align: start;
+}
+
+.statLabel {
+  font-size: 0.8661rem;
+  line-height: 0.8724rem;
+}
+
+.about {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1.125rem;
+}
+
+.aboutCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.625rem;
+  inline-size: 100%;
+  min-block-size: 15.6875rem;
+  padding: 1.6875rem;
+  border-radius: 2.625rem;
+  background-color: var(--wz-panel);
+}
+
+.aboutName {
+  font-family: var(--wz-font-display);
+  font-size: 4.86rem;
+  font-weight: 400;
+  line-height: 4.2714rem;
+}
+
+.aboutTagline {
+  color: var(--wz-tagline);
+  font-size: 1.4756rem;
+  font-weight: 700;
+  line-height: 1.8027rem;
+}
+
+.aboutText {
+  opacity: 0.8;
+}
+
+/* The sample's buttons: they only show the look, so they are not <button>s. */
+.fakeButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5625rem;
+  color: var(--wz-button-text);
+  font-size: 1.172rem;
+  line-height: 1.03rem;
+  white-space: nowrap;
+}
+
+.messageButton {
+  inline-size: 7.9375rem;
+  block-size: 2.25rem;
+  background-color: var(--wz-button-light);
+}
+
+.applyButton {
+  inline-size: 13.7556rem;
+  max-inline-size: 100%;
+  block-size: 3.3125rem;
+  background-color: var(--wz-button);
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.3125rem;
+}
+
+.detailsHeading {
+  opacity: 0.75;
+}
+
+.skills {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4375rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* A row: icon, text, check mark. */
+.skill {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 1.25rem;
+  min-block-size: 5.5625rem;
+  padding: 1.0625rem 1.4375rem;
+  border-radius: 1rem;
+  background-color: var(--wz-solid);
+}
+
+.skillTall {
+  min-block-size: 7.75rem;
+}
+
+.rowText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  min-inline-size: 0;
+}
+
+.rowSubtitle {
+  font-size: 1rem;
+  line-height: 1.393rem;
+  opacity: 0.8;
+}
+
+.experience {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  min-block-size: 5.5rem;
+  padding: 1.0313rem 1.6875rem;
+  border-radius: 1rem;
+  background-color: var(--wz-solid);
+}
+
+/* === The light Hebrew bands ============================================= */
+
+.band {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3125rem;
+  padding-block: 1.375rem;
+  padding-inline: 1.6875rem 1.375rem;
+  background-color: var(--wz-band);
+  color: var(--wz-band-text);
+}
+
+.bandText {
+  opacity: 0.8;
+}
+
+.features {
+  padding: 0;
+  list-style: none;
+}
+
+/* === Specialties ======================================================== */
+
+.specialties {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8125rem;
+  padding: 0 var(--wz-gutter);
+  list-style: none;
+}
+
+.specialty {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 1.5625rem;
+  border-radius: 0.625rem;
+  background-color: var(--wz-panel);
+}
+
+/* One word per line, as in Figma. */
+.specialtyName {
+  inline-size: min-content;
+}
+
+/*
+  Two icons are a coloured ellipse cut by a mask image in Figma. The sizes
+  and offsets are Figma's.
+*/
+.curseBreakerIcon,
+.potionCriticIcon {
+  display: block;
+  background-size: 100% 100%;
+  mask-repeat: no-repeat;
+}
+
+.curseBreakerIcon {
+  inline-size: 3.7743rem;
+  block-size: 3.8846rem;
+  margin-block-start: -0.0275rem;
+  margin-inline-start: -0.1931rem;
+  background-image: url("/design/icon-curse-breaker.svg");
+  mask-image: url("/design/curse-breaker-mask.png");
+  mask-position: 0.1929rem 0.0276rem;
+  mask-size: 3.6641rem 3.857rem;
+}
+
+.potionCriticIcon {
+  inline-size: 3.5189rem;
+  block-size: 3.7109rem;
+  margin-block-start: 0.2881rem;
+  margin-inline-start: -0.3838rem;
+  background-image: url("/design/icon-potion-critic.svg");
+  mask-image: url("/design/potion-critic-mask.png");
+  mask-position: 0.3839rem -0.2879rem;
+  mask-size: 2.7838rem 3.8586rem;
+}
+
+/* === Mission posts ====================================================== */
+
+.posts {
+  display: flex;
+  flex-direction: column;
+  gap: 3.125rem;
+  padding-inline: var(--wz-gutter);
+}
+
+.post {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.5625rem;
+  padding: 1.5625rem 1.75rem;
+  border-radius: 0.625rem;
+  background-color: var(--wz-panel);
+}
+
+.postAuthor {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.875rem;
+}
+
+.postAuthorText {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  min-inline-size: 0;
+}
+
+.postName {
+  font-family: var(--wz-font-display);
+  font-size: 3.4119rem;
+  font-weight: 400;
+  line-height: 2.9986rem;
+}
+
+.postRole {
+  opacity: 0.8;
+}
+
+.postText {
+  /* 28px under the author, 25px of it from .post's gap. */
+  margin-block-start: 0.1875rem;
+  line-height: 2.1875rem;
+}
+
+.lookingFor {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.lookingForHeading {
+  opacity: 0.8;
+}
+
+.lookingForList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Icon, then its label, the labels lined up under each other. */
+.lookingForList li {
+  display: grid;
+  grid-template-columns: var(--wz-icon-column) 1fr;
+  align-items: center;
+}
+
+.postSue {
+  --wz-icon-column: 1.8125rem;
+}
+
+/* Figma gives Ray's post more room around the author and the text. */
+.postRay {
+  --wz-icon-column: 2.125rem;
+}
+
+.postRay .postAuthor {
+  align-items: center;
+  gap: 0.8125rem;
+  margin-block-start: 1.4375rem;
+}
+
+.postRay .postAuthorText {
+  gap: 1.25rem;
+}
+
+.postRay .postText {
+  margin-block-end: 1.4375rem;
 }
