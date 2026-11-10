@@ -76,16 +76,19 @@ Session: new session. `/figma-to-code <figma link>`.
 
 - [x] Mobile design on `/design`, checked on a real phone on the live app
       (pushed `58b2d62`, with the designer's fonts)
-- [ ] Meet the designer: phone, tablet, desktop; agree on wider layouts
+- [x] Meet the designer: phone, tablet, desktop; agree on wider layouts
       (`.claude/assignment/design-questions.md`)
-- [ ] Build the responsive version, check it with them again
-- [ ] Designer added as collaborator, clones, runs it, opens a PR
-- [ ] Review, merge, see it live. Save the PR URL
+- [x] Build the responsive version, check it with them again (draft pushed
+      `ec47149`, their notes applied in `64c2cd7`)
+- [x] Designer added as collaborator, clones, runs it, opens a PR
+- [x] Review, merge, see it live. Save the PR URL
+      (https://github.com/amir-benavi/product-jam-ex2/pull/1, "Varified" →
+      "Verified")
 
 ## Phase F: Part 4 and submit (Tue Nov 10)
 
 - [x] Home page: new content + links to `/tic-tac-toe`, `/nasa`, `/design`
-      (pushed `e9666cf`; update the "Design to code" card text after Part 3)
+      (pushed `e9666cf`; "Design to code" card text updated after Part 3)
 - [ ] `docs/design.md` **What changed and why** complete
 - [ ] `answers.md` complete, variant (`four`) at the top
 - [ ] Two fresh test accounts on the live app

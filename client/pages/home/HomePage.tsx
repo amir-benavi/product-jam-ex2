@@ -29,7 +29,7 @@ const PARTS: Part[] = [
     to: "/design",
     title: "Design to code",
     description:
-      "A mobile design by my designer partner, built from Figma and made responsive together.",
+      "Wizzin, LinkedIn for wizards: my designer partner's mobile Figma design, with tablet and desktop layouts we decided together. They also made their first pull request to this app.",
     needsLogin: false,
   },
 ];
