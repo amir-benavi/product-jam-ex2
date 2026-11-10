@@ -110,12 +110,12 @@ export default function DesignPage() {
         </div>
 
         <div className={styles.details}>
-          <h3 className={styles.detailsHeading}>Varified Skills</h3>
+          <h3 className={styles.detailsHeading}>Verified Skills</h3>
           <ul className={styles.skills}>
             <li className={styles.skill}>
               <img src="/design/icon-verified-skills.svg" alt="" />
               <div className={styles.rowText}>
-                <p className={styles.rowTitle}>Varifies Skills and Degrees</p>
+                <p className={styles.rowTitle}>Verifies Skills and Degrees</p>
                 <p className={styles.rowSubtitle}>You can always trust us</p>
               </div>
               <img src="/design/icon-check.svg" alt="" />
