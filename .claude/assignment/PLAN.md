@@ -35,7 +35,7 @@ Claude can't do these: they need your accounts and secret keys.
 Session: new session, **plan mode**. "Read Part 0, 1 and 2 of the spec and help
 me write `docs/design.md`."
 
-- [ ] Answer question 1 in `answers.md` (trace the `events` request yourself)
+- [x] Answer question 1 in `answers.md` (trace the `events` request yourself)
 - [x] `docs/design.md`: tables, endpoints with errors and tables touched, one
       trade-off
 - [x] Add both keys to `Bindings` in `server/env.ts`
