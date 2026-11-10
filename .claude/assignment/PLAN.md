@@ -83,7 +83,8 @@ Session: new session. `/figma-to-code <figma link>`.
 
 ## Phase F: Part 4 and submit (Tue Nov 10)
 
-- [ ] Home page: new content + links to `/tic-tac-toe`, `/nasa`, `/design`
+- [x] Home page: new content + links to `/tic-tac-toe`, `/nasa`, `/design`
+      (pushed `e9666cf`; update the "Design to code" card text after Part 3)
 - [ ] `docs/design.md` **What changed and why** complete
 - [ ] `answers.md` complete, variant (`four`) at the top
 - [ ] Two fresh test accounts on the live app

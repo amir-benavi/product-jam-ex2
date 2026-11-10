@@ -14,13 +14,24 @@ and no `.env` needed, so the designer can run it.
 
 ## 1. Read the design
 
-With the Figma MCP tools, on the frame in `$ARGUMENTS`:
+First read Figma's own guidance with the Figma MCP tool `get_figma_skill`, uri
+`skill://figma/figma-design-to-code/SKILL.md`, and follow it together with this
+skill. Where they differ, this project's rules win (kit components, tokens, CSS
+modules).
 
-- `get_screenshot` to see it,
-- `get_design_context` for structure, text, and measurements,
+Then, with the Figma MCP tools, on the frame in `$ARGUMENTS`:
+
+- `get_design_context` for structure, text, measurements and asset URLs. It also
+  returns a screenshot, so call `get_screenshot` only if none came back. Pass
+  `skillNames: "resource:figma-design-to-code"`.
 - `get_variable_defs` for its colours, fonts and spacing.
 
-If the link points at a whole page instead of one frame, ask which frame.
+If the link has no `node-id` (a whole file or page, not one frame), ask for a
+"Copy link to selection" link to the frame.
+
+**Every call counts against a monthly limit** (a Collab seat gets about 20).
+Read the design once, keep what came back, and don't call these tools again to
+re-check: compare against the screenshot you already have.
 
 ## 2. Map it to the kit before coding
 
@@ -32,7 +43,9 @@ Write down, and show the user, a short mapping:
 - Figma px → `rem` (1rem = 16px).
 - Figma pieces → kit components (`client/components/`) or new markup.
 - Text direction and language of the design (Hebrew → RTL).
-- Images and icons to export into `client/public/design/`.
+- Images and icons to download from the asset URLs `get_design_context` gave
+  into `client/public/design/`. Those URLs are temporary: download them right
+  away, and leave no Figma URL in the code.
 
 ## 3. Build it, mobile first
 
