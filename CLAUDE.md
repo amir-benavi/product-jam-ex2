@@ -56,7 +56,10 @@ Skip `docs/03-google-sign-in.md` (not needed for ex2).
 - **Don't touch `.env`.** I edit it myself. If a new key is needed, tell me the
   line to add and add it to `Bindings` in `server/env.ts`.
 - **`npx supabase db push` changes the live database** (local and production
-  share one Supabase project). Ask before running it.
+  share one Supabase project). Ask before running it. The Supabase CLI v3 pushes
+  to a local Docker stack by default, so always use
+  `npx supabase db push --remote`; it asks for the database password, so I run
+  it in my own terminal, not through `!`.
 - **Every push to `main` deploys.** Push only after the checks pass.
 
 ## Checking work
