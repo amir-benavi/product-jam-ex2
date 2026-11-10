@@ -74,7 +74,8 @@ Session: new session. `/add-feature apod`.
 
 Session: new session. `/figma-to-code <figma link>`.
 
-- [ ] Mobile design on `/design`, checked on a real phone on the live app
+- [x] Mobile design on `/design`, checked on a real phone on the live app
+      (pushed `58b2d62`, with the designer's fonts)
 - [ ] Meet the designer: phone, tablet, desktop; agree on wider layouts
       (`.claude/assignment/design-questions.md`)
 - [ ] Build the responsive version, check it with them again

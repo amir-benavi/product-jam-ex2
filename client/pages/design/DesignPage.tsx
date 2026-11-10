@@ -12,6 +12,8 @@ import styles from "./DesignPage.module.css";
  * app will look like: they are not <button>s, because they do nothing.
  *
  * Images and icons are in client/public/design/, exported from Figma.
+ * Tablet and desktop layouts are a draft for the designer to review: see
+ * .claude/assignment/design-questions.md.
  */
 
 /** The 8 specialty cards. `icon` is a file in client/public/design/. */
@@ -31,40 +33,44 @@ const specialties = [
 export default function DesignPage() {
   return (
     <main className={styles.page}>
-      <section className={styles.intro} dir="rtl" lang="he">
-        <div className={styles.introBlock}>
-          <h2 className={styles.introHeading}>המצב היום</h2>
-          <ul className={styles.bullets}>
-            <li>
-              בעולם כרגע קוסמים מוצאים שותפים למשימות דרך היכרות אישית, המלצות
-              מפה לאוזן ולוחות מודעות
-            </li>
-            <li>
-              כשמקבלים המלצה על קוסם עם התמחות מסוימת אין דרך לדעת אם אפשר לסמוך
-              עליו
-            </li>
-          </ul>
-        </div>
-        <div className={styles.introBlock}>
-          <h2 className={styles.introHeading}>המטרות</h2>
-          <ul className={styles.bullets}>
-            <li>לרכז קוסמים ואת המידע המקצועי שלהם במקום אחד</li>
-            <li>לאפשר קשרים מעבר למעגל המכרים</li>
-            <li>לייצר הזדמנויות לחיבורים שלא יכלו להתקיים לפני כן</li>
-          </ul>
-        </div>
-        <div className={styles.introBlock}>
-          <h2 className={styles.productHeading}>מה המוצר?</h2>
-          <p className={styles.introText}>
-            פלטפורמה שבה כל קוסם מציג את התחום בו הוא מתמחה, הניסיון וההמלצות
-            שלו, ומוצא שותפים שהיכולות שלהם משלימות אותו למשימות קסומות.
-          </p>
-        </div>
-      </section>
+      {/* The opening text and the logo: one under the other on phones, side
+          by side on desktops (see .hero in the CSS). */}
+      <div className={styles.hero}>
+        <section className={styles.intro} dir="rtl" lang="he">
+          <div className={styles.introBlock}>
+            <h2 className={styles.introHeading}>המצב היום</h2>
+            <ul className={styles.bullets}>
+              <li>
+                בעולם כרגע קוסמים מוצאים שותפים למשימות דרך היכרות אישית, המלצות
+                מפה לאוזן ולוחות מודעות
+              </li>
+              <li>
+                כשמקבלים המלצה על קוסם עם התמחות מסוימת אין דרך לדעת אם אפשר
+                לסמוך עליו
+              </li>
+            </ul>
+          </div>
+          <div className={styles.introBlock}>
+            <h2 className={styles.introHeading}>המטרות</h2>
+            <ul className={styles.bullets}>
+              <li>לרכז קוסמים ואת המידע המקצועי שלהם במקום אחד</li>
+              <li>לאפשר קשרים מעבר למעגל המכרים</li>
+              <li>לייצר הזדמנויות לחיבורים שלא יכלו להתקיים לפני כן</li>
+            </ul>
+          </div>
+          <div className={styles.introBlock}>
+            <h2 className={styles.productHeading}>מה המוצר?</h2>
+            <p className={styles.introText}>
+              פלטפורמה שבה כל קוסם מציג את התחום בו הוא מתמחה, הניסיון וההמלצות
+              שלו, ומוצא שותפים שהיכולות שלהם משלימות אותו למשימות קסומות.
+            </p>
+          </div>
+        </section>
 
-      <h1 className={styles.logo}>
-        <img src="/design/logo.svg" alt="Wizzin" width={389} height={106} />
-      </h1>
+        <h1 className={styles.logo}>
+          <img src="/design/logo.svg" alt="Wizzin" width={389} height={106} />
+        </h1>
+      </div>
 
       {/* A sample profile in the app. */}
       <section className={styles.profile} lang="en" aria-label="Profile">

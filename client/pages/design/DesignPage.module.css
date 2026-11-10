@@ -1,6 +1,8 @@
 /*
   The designer's Wizzin page, from their mobile Figma frame (440px wide).
-  Mobile only for now: wider layouts get decided with the designer.
+  The mobile rules come first; the media queries at the end of the file add
+  the tablet (768px) and desktop (1280px) layouts, a draft for the designer
+  (.claude/assignment/design-questions.md).
 
   Sizes are Figma's px / 16 (1rem = 16px). The design does not use the kit's
   4/8/12/16 spacing scale, so the values are copied as they are.
@@ -52,6 +54,19 @@
   --wz-font-display: "Manufacturing Consent", var(--font-titles);
 
   --wz-gutter: 1.5625rem; /* 25px on each side of the 440px frame */
+  --wz-section-gap: 2.875rem;
+
+  /* Font sizes and line heights that grow on wider screens (the media
+     queries at the end change them). These are the mobile frame's values. */
+  --wz-fs-sub: 1.4756rem; /* subheadings */
+  --wz-lh-sub: 1.8027rem;
+  --wz-fs-body: 1.0625rem; /* body text */
+  --wz-lh-body: 1.4375rem;
+  --wz-fs-display: 4.86rem; /* "Wizzin", the stats */
+  --wz-lh-display: 4.2714rem;
+  --wz-fs-name: 3.4119rem; /* the posts' author names */
+  --wz-lh-name: 2.9986rem;
+  --wz-lh-post: 2.1875rem;
 
   /* Undo the kit's centred, padded <main> (client/styles/global.css): the
      background runs edge to edge. */
@@ -61,15 +76,22 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2.875rem;
+  gap: var(--wz-section-gap);
   background: var(--wz-solid) url("/design/background.png") center top / cover;
   color: var(--wz-text);
   font-family: var(--wz-font);
 }
 
 /* Every block is as wide as the page, minus the gutters. */
-.page > * {
+.page > *,
+.hero > * {
   inline-size: 100%;
+}
+
+/* On phones the wrapper is not a box at all: the opening text and the logo
+   behave as if they were directly in .page. */
+.hero {
+  display: contents;
 }
 
 /* Shared text styles: Figma's "כותרת משנית" (subheading) and "טקסט רץ"
@@ -82,9 +104,9 @@
 .postText,
 .lookingForHeading {
   font-family: var(--wz-font-bold);
-  font-size: 1.4756rem;
+  font-size: var(--wz-fs-sub);
   font-weight: 700;
-  line-height: 1.8027rem;
+  line-height: var(--wz-lh-sub);
 }
 
 .bullets,
@@ -94,8 +116,8 @@
 .features,
 .postRole,
 .lookingForList {
-  font-size: 1.0625rem;
-  line-height: 1.4375rem;
+  font-size: var(--wz-fs-body);
+  line-height: var(--wz-lh-body);
 }
 
 /* === Opening text (Hebrew) ============================================== */
@@ -264,8 +286,8 @@
 
 .statCount {
   font-family: var(--wz-font-display);
-  font-size: 4.86rem;
-  line-height: 4.2714rem;
+  font-size: var(--wz-fs-display);
+  line-height: var(--wz-lh-display);
 }
 
 /* Figma puts the first number at the start of its column. */
@@ -299,17 +321,17 @@
 
 .aboutName {
   font-family: var(--wz-font-display);
-  font-size: 4.86rem;
+  font-size: var(--wz-fs-display);
   font-weight: 400;
-  line-height: 4.2714rem;
+  line-height: var(--wz-lh-display);
 }
 
 .aboutTagline {
   color: var(--wz-tagline);
   font-family: var(--wz-font-bold);
-  font-size: 1.4756rem;
+  font-size: var(--wz-fs-sub);
   font-weight: 700;
-  line-height: 1.8027rem;
+  line-height: var(--wz-lh-sub);
 }
 
 .aboutText {
@@ -518,9 +540,9 @@
 
 .postName {
   font-family: var(--wz-font-display);
-  font-size: 3.4119rem;
+  font-size: var(--wz-fs-name);
   font-weight: 400;
-  line-height: 2.9986rem;
+  line-height: var(--wz-lh-name);
 }
 
 .postRole {
@@ -530,7 +552,7 @@
 .postText {
   /* 28px under the author, 25px of it from .post's gap. */
   margin-block-start: 0.1875rem;
-  line-height: 2.1875rem;
+  line-height: var(--wz-lh-post);
 }
 
 .lookingFor {
@@ -579,4 +601,213 @@
 
 .postRay .postText {
   margin-block-end: 1.4375rem;
+}
+
+/* ======================================================================== */
+/* Wider screens: a draft for the designer                                  */
+/* ======================================================================== */
+/*
+  Everything above leaves the phone layout as the designer approved it; the
+  queries below only add to it. Font sizes and spacing use clamp(min, grow,
+  max): the min is the phone value, so nothing gets smaller than on a phone,
+  they grow with the screen width (vw) in between, and stop at the max.
+*/
+
+/* --- Background ---------------------------------------------------------- */
+/*
+  The phone background is 439px wide, so above the 440px frame it would be
+  shown wider than it really is (blurry). From 441px the desktop background
+  from the designer's desktop frame (1728 x 1117px) takes over.
+
+  It covers the screen, not the page: the page is ~4000px tall, and covering
+  that would blow the 1117px image up about 3.5 times. A position: fixed
+  layer behind the content stays the size of the screen while the page
+  scrolls over it. clip-path keeps that layer inside <main>, so it never
+  shows over the kit's header or footer.
+*/
+@media (min-width: 441px) {
+  .page {
+    background: var(--wz-solid);
+    clip-path: inset(0);
+  }
+
+  .page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--wz-solid) url("/design/background-large.jpg") center / cover no-repeat;
+  }
+}
+
+/* Above the image's real width it is not stretched any more: it stays at
+   1728px in the middle, on the same black as its own background. */
+@media (min-width: 1729px) {
+  .page::before {
+    background-size: auto;
+  }
+}
+
+/* --- Tablet: 768px and up ------------------------------------------------ */
+
+@media (min-width: 768px) {
+  .page {
+    --wz-max: 90rem; /* 1440px of content, from the desktop frame */
+    --wz-gutter: clamp(2rem, 4vw, 4rem);
+    --wz-section-gap: clamp(2.875rem, 1rem + 3vw, 5rem);
+    --wz-columns-gap: clamp(1.25rem, 0.25rem + 2vw, 2.5rem);
+
+    /* Line heights become ratios of the font size (the frame's ratios), so
+       they grow with it. */
+    --wz-fs-sub: clamp(1.4756rem, 1rem + 0.8vw, 1.875rem);
+    --wz-lh-sub: 1.22;
+    --wz-fs-body: clamp(1.0625rem, 0.75rem + 0.5vw, 1.25rem);
+    --wz-lh-body: 1.35;
+    --wz-fs-display: clamp(4.86rem, 2rem + 4vw, 6.5rem);
+    --wz-lh-display: 0.88;
+    --wz-fs-name: clamp(3.4119rem, 1.5rem + 3vw, 4.5rem);
+    --wz-lh-name: 0.88;
+    --wz-lh-post: 1.48;
+  }
+
+  /* The content blocks stop at --wz-max (plus their gutters) and sit in the
+     middle; .page centres them. The light bands still run edge to edge. */
+  .hero,
+  .profile,
+  .specialties,
+  .posts {
+    max-inline-size: calc(var(--wz-max) + 2 * var(--wz-gutter));
+  }
+
+  .hero {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wz-section-gap);
+  }
+
+  /* The two short lists side by side, "what is the product" under both. */
+  .intro {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.875rem var(--wz-columns-gap);
+  }
+
+  .introBlock:last-child {
+    grid-column: 1 / -1;
+  }
+
+  /* Across both columns its lines would get too long to read easily. */
+  .introText {
+    max-inline-size: 38rem;
+  }
+
+  /* Photo and stats next to the about card, the skills under both. */
+  .profile {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+    gap: var(--wz-columns-gap);
+  }
+
+  .details {
+    grid-column: 1 / -1;
+  }
+
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+  }
+
+  /* The band's text lines up with the content's edges. */
+  .band {
+    padding-block: clamp(1.375rem, 0.5rem + 2vw, 2.5rem);
+    padding-inline: max(var(--wz-gutter), (100% - var(--wz-max)) / 2);
+  }
+
+  .features {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--wz-columns-gap);
+  }
+
+  .specialties {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: clamp(0.8125rem, 0.25rem + 1.2vw, 1.5rem);
+  }
+
+  .specialty {
+    padding: clamp(1.5625rem, 0.5rem + 1.5vw, 2.25rem);
+  }
+}
+
+/* --- Desktop: 1280px and up ---------------------------------------------- */
+
+@media (min-width: 1280px) {
+  /* As in the desktop frame: the logo on the left, the opening text in a
+     narrow column on the right, both at the top. */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 32rem);
+    grid-template-areas: "logo intro";
+    align-items: start;
+    column-gap: var(--wz-columns-gap);
+    padding-inline: var(--wz-gutter);
+  }
+
+  .intro {
+    grid-area: intro;
+    display: flex;
+    padding-inline: 0;
+  }
+
+  .logo {
+    grid-area: logo;
+    justify-content: flex-start;
+    padding-block-start: 3.875rem; /* level with the opening text */
+    padding-inline: 0;
+  }
+
+  .logo img {
+    inline-size: 27.5rem; /* 440px, the logo's width in the desktop frame */
+  }
+
+  /* A profile page: photo, stats and about card on the left, the skills and
+     experience on the right. */
+  .profile {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    grid-template-areas:
+      "top details"
+      "about details";
+  }
+
+  .profileTop {
+    grid-area: top;
+  }
+
+  .about {
+    grid-area: about;
+  }
+
+  .details {
+    grid-area: details;
+  }
+
+  /* The two mission posts side by side. */
+  .posts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: var(--wz-columns-gap);
+  }
+
+  /* Side by side, Ray's extra room from the phone frame makes his post look
+     shifted down next to Sue's, so both start the same way. */
+  .postRay .postAuthor {
+    align-items: flex-start;
+    margin-block-start: 0;
+  }
+
+  .postRay .postText {
+    margin-block-end: 0;
+  }
 }
