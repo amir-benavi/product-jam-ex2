@@ -141,3 +141,35 @@ user, while every extra request to NASA is another way for the page to be slow
 or fail. The number of pages is a constant in the code, from the total at the
 time of writing: pictures are only ever added, so every page under it exists,
 and we save the request for `X-WP-Total`.
+
+## What changed and why
+
+### Part 1 - tic-tac-toe
+
+The tables and endpoints were built as designed. Some details the design didn't
+spell out, and one decision:
+
+- **The rules return errors instead of throwing them.** `replay()` in
+  `shared/game/four.ts` answers `{ ok: true, board, result }` or
+  `{ ok: false, error: { code, moveIndex, message } }`, where `code` is
+  `out_of_range`, `cell_taken` or `game_over`. The route turns any of them into
+  `400 invalid_game` with the message, so the message says which move was wrong.
+- **An unfinished game is not a rule error.** For the rules, a legal game that
+  hasn't ended is `{ ok: true, result: null }`, because the page needs exactly
+  that to keep playing. Rejecting it is the route's job: `POST /api/games`
+  answers `400 invalid_game` ("The game hasn't ended yet") when `result` is
+  `null`.
+- **Two checks on the moves.** Zod (`createGameSchema`) checks the shape: 1 to
+  16 whole numbers from 0 to 15, otherwise `400 invalid_input`. The rules check
+  the game. So a list of 3 moves passes Zod and is rejected by the rules, and
+  the 7-to-16 `check` in the table is a last line of defence, not the check that
+  answers the user.
+- **No limit on how many games a user saves.** The security review pointed out
+  that someone with `curl` can save the same legal game thousands of times. I
+  chose not to limit it: it only fills that user's own list, and a limit would
+  need a count query on every save. If it matters later, the fix is a per-user
+  cap answering `409`.
+- **`GET /api/games` answers the latest 50 games, not all of them.** The second
+  security review pointed out that, without a limit, a user who saves thousands
+  of games makes their own list slow to load and to draw. 50 is more than
+  anyone scrolls through.

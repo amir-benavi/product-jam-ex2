@@ -20,15 +20,21 @@ import { createAdminClient } from "../lib/supabase";
 /** The columns we send to the browser. Listed out so a new column doesn't leak. */
 const COLUMNS = "id, moves, result, created_at";
 
+/** The most games the list sends back. */
+const GAMES_LIMIT = 50;
+
 export const games = new Hono<AppEnv>()
 
-  // GET /api/games - the logged-in user's games, newest first.
+  // GET /api/games - the logged-in user's latest games, newest first.
   .get("/", async (c) => {
     const { data, error } = await createAdminClient(c.env)
       .from("games")
       .select(COLUMNS)
       .eq("owner_id", c.get("user").id)
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
+      // Nobody saving games by the thousand can make this answer (and the
+      // page drawing it) slow.
+      .limit(GAMES_LIMIT);
 
     if (error) {
       console.error("list games failed:", error);

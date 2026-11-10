@@ -1,6 +1,6 @@
 # Answers
 
-**My variant:**
+**My variant:** `four` - 4×4 board, four in a row wins.
 
 Answer each question in a few sentences, under the question. Put screenshots in
 a `screenshots/` folder and link them from your answers.
@@ -102,6 +102,43 @@ same pure functions?
 
 **Answer:**
 
+**How a game of `four` can end.** X wins, O wins, or it's a draw. A player wins
+by filling one of the 10 lines on the 4×4 board: 4 rows, 4 columns and the 2
+long diagonals (`LINES` in `shared/game/four.ts`). It's a draw when all 16 cells
+are taken and nobody has a line. The shortest game is 7 moves (X's fourth move
+wins), and the longest is 16.
+
+**How a move can be wrong.** `replay()` checks each move in this order and stops
+at the first one that breaks a rule:
+
+- `out_of_range`: the cell isn't on the board (not a whole number from 0 to 15).
+- `game_over`: someone already won, or the board is full.
+- `cell_taken`: the cell was already played.
+
+A move can't be played out of turn. Whose move it is comes from its position in
+the list: X plays the even positions and O the odd ones (`playerAt`), so there
+is no way to say "X plays twice". A game that hasn't ended yet isn't a wrong
+move either. The rules answer `result: null`, and it's the server route that
+refuses to save it.
+
+**The function.** `play(moves, cell)` takes a game, which is its list of moves,
+and one more cell. It answers the game after that move, as
+`{ ok: true, board, result }`, or as `{ ok: false, error }` if the move breaks a
+rule. It doesn't change the list it gets: it builds a new one,
+`[...moves, cell]`, and replays it from an empty board with `replay()`. The page
+then saves that new list with `setMoves`. It returns the error instead of
+throwing it, so the server can turn it into a `400`.
+
+**Why the same pure functions on both sides.** If the page and the server each
+had their own copy of the rules, they could disagree. The page would let you
+play a game the server then refuses, or the server would accept a game the page
+would never allow. With one copy in `shared/`, there's only one definition of a
+legal game. Because the functions are pure (the same moves always give the same
+result, and nothing outside them is read or changed), the server can replay the
+moves the page sent and get exactly the result the page showed. They are also
+easy to test: `shared/game/four.test.ts` checks every line, the draw and every
+kind of wrong move without a browser or a database.
+
 ## 3. Cheating
 
 Send your server a game that could never have been played, for example one that
@@ -111,6 +148,40 @@ Why does the server check the moves itself, if your own page always sends
 correct games? Which status code did your server answer, and why that one?
 
 **Answer:**
+
+![The server's answer to a game "won" in 2 moves](screenshots/q3-cheating.png)
+
+I copied the `POST /api/games` request from the **Network** tab with **Copy as
+fetch**, changed the body to `{ "moves": [0, 1] }`, and sent it from the
+**Console**. The server answered `400`:
+
+```json
+{
+  "error": {
+    "code": "invalid_game",
+    "message": "The game hasn't ended yet."
+  }
+}
+```
+
+There isn't even a way to _say_ "I won": the server takes only the moves and
+drops any `result` in the body. Two moves aren't a finished game, so it refuses
+to save it. I also tried a cell played twice, `[0, 0, 1, 2, 3, 4, 5]`, and got
+`400 invalid_game` with "Move 2: cell 0 is already taken."
+
+**Why the server checks, if my page always sends correct games.** The page isn't
+the only thing that can talk to my server. Anyone who is logged in can send any
+body they want, from the devtools (as I just did) or with `curl`. The page's
+rules only protect people who play fairly. So the server replays the moves
+itself with `replay()` from `shared/game/four.ts` (`server/routes/games.ts`,
+line 52), and saves the result _it_ calculated (line 65).
+
+**Why `400`.** `400` means "your request is wrong". The request reached the
+server and the user is logged in, so it isn't `401`. The game isn't someone
+else's, so it isn't `403`. And it isn't `500`, because nothing on the server
+failed: the moves are a game that can't have been played. The `code`,
+`invalid_game`, tells it apart from `invalid_input` (a body that isn't even a
+list of cells).
 
 ## 4. Someone else's games
 
@@ -122,6 +193,26 @@ How does your server know whose games to send? Which line in your code makes
 sure B never gets A's games, and what would B see without it?
 
 **Answer:**
+
+![User B's list of games](screenshots/q4-other-user.png)
+
+I saved a game as user A, then logged in as user B and opened `/tic-tac-toe`.
+The `GET /api/games` request in the **Network** tab answered `200` with only B's
+own games (an empty list, `[]`, before B had played). A's game wasn't in it.
+
+**How the server knows whose games to send.** The request has no user id in it,
+only the login token in the `Authorization` header. `requireAuth` checks the
+token and saves who it belongs to, and the route reads it with
+`c.get("user").id`. The browser can't change it without breaking the token's
+signature.
+
+**The line.** `.eq("owner_id", c.get("user").id)` in `server/routes/games.ts`
+(line 33) makes the database answer only the rows where `owner_id` is the
+logged-in user.
+
+**Without it.** B would see everyone's games, A's included. The server talks to
+the database with the secret key, which bypasses Row Level Security, so nothing
+else stops it. That one filter is the whole protection.
 
 ## 5. When NASA fails
 

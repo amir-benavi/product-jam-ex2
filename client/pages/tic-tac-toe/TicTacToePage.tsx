@@ -79,7 +79,14 @@ export default function TicTacToePage() {
       </div>
 
       <div className={styles.actions}>
-        <Button onClick={newGame}>New game</Button>
+        {/* Not while a save is running or failed: starting over would throw
+        away the finished game before it is saved. "Try again" comes first. */}
+        <Button
+          onClick={newGame}
+          disabled={saveGame.isPending || saveGame.isError}
+        >
+          New game
+        </Button>
         <SaveStatus
           save={saveGame}
           onRetry={() => saveGame.mutate({ moves })}

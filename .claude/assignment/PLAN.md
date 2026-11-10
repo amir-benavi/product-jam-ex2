@@ -45,12 +45,15 @@ me write `docs/design.md`."
 
 Session: new session. `/add-feature games`.
 
-- [ ] `shared/game/` pure rules + tests (all win lines, draw, invalid moves)
-- [ ] `/tic-tac-toe` page: board, turn, result, new game, CSS module
-- [ ] Migration `games`, `db push`
-- [ ] `POST` sends moves, server replays and saves its own result
-- [ ] List of my games, newest first, with result and time
+- [x] `shared/game/` pure rules + tests (all win lines, draw, invalid moves)
+- [x] `/tic-tac-toe` page: board, turn, result, new game, CSS module
+- [x] Migration `games`, `db push` (`--remote`; the first try missed it, so
+      check the table is in Table Editor after every push)
+- [x] `POST` sends moves, server replays and saves its own result
+- [x] List of my games, newest first, with result and time
+- [x] Checked at 375, 768 and 1280px
 - [ ] `security-reviewer` agent → fix → `/ship`
+- [ ] `answers.md` questions 2-4 (3 and 4 need screenshots, see below)
 
 ## Phase D: Part 2, space pictures (Mon Nov 9)
 
