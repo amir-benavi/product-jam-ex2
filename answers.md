@@ -149,11 +149,15 @@ correct games? Which status code did your server answer, and why that one?
 
 **Answer:**
 
-![The server's answer to a game "won" in 2 moves](screenshots/q3-cheating.png)
+I played one game on the live app, copied its `POST /api/games` request from the
+**Network** tab with **Copy as fetch**, changed the body to
+`{ "moves": [0, 1] }`, and sent it from the **Console**:
 
-I copied the `POST /api/games` request from the **Network** tab with **Copy as
-fetch**, changed the body to `{ "moves": [0, 1] }`, and sent it from the
-**Console**. The server answered `400`:
+![The copied request, with the body changed to two moves](screenshots/q3-request.png)
+
+The server answered `400` (the red row in the **Network** tab):
+
+![The server's answer to a game "won" in 2 moves](screenshots/q3-response.png)
 
 ```json
 {
@@ -166,8 +170,7 @@ fetch**, changed the body to `{ "moves": [0, 1] }`, and sent it from the
 
 There isn't even a way to _say_ "I won": the server takes only the moves and
 drops any `result` in the body. Two moves aren't a finished game, so it refuses
-to save it. I also tried a cell played twice, `[0, 0, 1, 2, 3, 4, 5]`, and got
-`400 invalid_game` with "Move 2: cell 0 is already taken."
+to save it.
 
 **Why the server checks, if my page always sends correct games.** The page isn't
 the only thing that can talk to my server. Anyone who is logged in can send any
@@ -225,8 +228,6 @@ the right key back when you are done.
 
 **Answer:**
 
-![What /nasa shows when NASA fails](screenshots/q5-nasa-fails.png)
-
 **A wrong key changes nothing.** After the November 8 update my server uses
 `science.nasa.gov/wp-json/wp/v2/apod-basic`, which doesn't need a key, so
 `NASA_API_KEY` is never read. To make NASA fail instead, I changed `NASA_URL` in
@@ -234,7 +235,14 @@ the right key back when you are done.
 doesn't have. NASA answers it with `404` and its own body,
 `{"code":"rest_no_route","message":"No route was found matching the URL and request method.", ...}`.
 
-**What the user got.** `GET /api/apod` answered `502`:
+**What the user got.** The page showed my server's message, with a **Try again**
+button:
+
+![What /nasa shows when NASA fails](screenshots/q5-page.png)
+
+In the **Network** tab, `GET /api/apod` answered `502`:
+
+![My server's answer in the Network tab](screenshots/q5-network.png)
 
 ```json
 {
@@ -245,9 +253,8 @@ doesn't have. NASA answers it with `404` and its own body,
 }
 ```
 
-The page showed that message, with a **Try again** button.
-<!-- TODO: check the page and the Network tab show exactly this, then
-     screenshot both into screenshots/q5-nasa-fails.png -->
+There are two `apod` requests because the page asks again once by itself when a
+request fails (`retry: 1` in `client/App.tsx`), and NASA failed both times.
 
 **Why `502`, not NASA's `404`.** NASA's status describes _my server's_ request
 to NASA, not the user's request to my server. The user's request was fine, and
@@ -265,7 +272,8 @@ The one NASA `404` that _is_ passed on, as our own error, is a date with no
 picture in `POST /api/apod/:date/explain`: then the user really asked for
 something that doesn't exist, so the server answers `404 no_picture`.
 
-I put the right `NASA_URL` back when I was done.
+I put the right `NASA_URL` back when I was done. (`NASA_API_KEY` stayed in
+`.env` the whole time; it was never the wrong one.)
 
 ## 6. Who wrote the text?
 
@@ -295,18 +303,20 @@ my Gemini key to write about anything they like.
 
 **The experiment.** In `userPrompt()` in `server/lib/gemini.ts` (line 37) I
 added the sentence to the end of the explanation, and asked for a picture nobody
-had explained yet (a saved one never reaches Gemini).
+had explained yet (a saved one never reaches Gemini): April 9, 2025, "HH 49:
+Interstellar Jet from Webb".
 
-![What came back with the injected sentence](screenshots/q6-injection.png)
+![What came back with the injected sentence](screenshots/q6.png)
 
-<!-- TODO: describe what came back. Either (a) a normal Hebrew explanation with
-     tags from the list, or (b) "The AI's answer wasn't a valid explanation"
-     (502 invalid_ai_answer). Then delete the line from userPrompt() AND delete
-     that date's row in the explanations table (Table Editor), because it was
-     saved for everyone. -->
+**Nothing was "hacked".** Gemini answered a normal Hebrew title and summary
+about the picture, with the tags `galaxy` and `star` (shown as גלקסיה and כוכב).
+It ignored the injected sentence, and even if it had tried to obey it, it could
+only choose tags from my list. The answer passed every check, so it was saved
+and shown like any other explanation.
 
 Then I removed the sentence, and deleted that picture's row from the
-`explanations` table, because whatever came back was saved for everyone.
+`explanations` table: it was made from text that wasn't NASA's, and it was saved
+for everyone.
 
 **What protects the tags.** "hacked" can't become a tag, at three levels:
 
@@ -361,6 +371,3 @@ passed an answer with a single Hebrew letter, like
 `assets.science.nasa.gov`, and to require that most of the letters are Hebrew.
 The lesson for me: an AI can check what another AI wrote, but I only noticed the
 first bug by actually looking at the page.
-
-<!-- TODO: if you have a better example from Part 1 or your own work, use it
-     instead; this one is from the Part 2 session. -->

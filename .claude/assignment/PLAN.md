@@ -54,9 +54,9 @@ Session: new session. `/add-feature games`.
 - [x] Checked at 375, 768 and 1280px
 - [x] `security-reviewer` agent → fix → `/ship` (pushed `361571b`)
 - [x] `answers.md` questions 2-4
-- [ ] Screenshots for questions 3 and 4: `screenshots/q3-cheating.png`,
-      `screenshots/q4-other-user.png` (take them on the live app, check the
-      answers' text still matches)
+- [x] Screenshots for questions 3 and 4: `screenshots/q3-request.png`,
+      `q3-response.png`, `q4-other-user.png` (taken on the live app, with the
+      test accounts `tester-a` and `tester-b`)
 
 ## Phase D: Part 2, space pictures (Mon Nov 9)
 
@@ -89,9 +89,10 @@ Session: new session. `/figma-to-code <figma link>`.
 
 - [x] Home page: new content + links to `/tic-tac-toe`, `/nasa`, `/design`
       (pushed `e9666cf`; "Design to code" card text updated after Part 3)
-- [ ] `docs/design.md` **What changed and why** complete
-- [ ] `answers.md` complete, variant (`four`) at the top
-- [ ] Two fresh test accounts on the live app
+- [x] `docs/design.md` **What changed and why** complete
+- [x] `answers.md` complete, variant (`four`) at the top
+- [x] Two fresh test accounts on the live app (`tester-a@example.com`,
+      `tester-b@example.com`; the password is not in the repo)
 - [ ] All pages work on the live app, not only locally
 - [ ] Comment on the submission issue: repo URL, live URL, designer PR URL, two
       test accounts

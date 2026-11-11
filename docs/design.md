@@ -173,6 +173,11 @@ spell out, and one decision:
   security review pointed out that, without a limit, a user who saves thousands
   of games makes their own list slow to load and to draw. 50 is more than anyone
   scrolls through.
+- **A finished game isn't lost when its save fails.** The design only said the
+  page saves a game when it ends. While the save is running, or after it has
+  failed, "New game" is disabled and the page offers a retry, which sends the
+  same moves again. Otherwise one click on "New game" would throw away a game
+  the server never got.
 
 ### Part 2 - space pictures
 
@@ -199,25 +204,47 @@ spell out, and one decision:
   there that is on NASA's own server. A video day has none, only a YouTube
   player, so `image_url` is `null` and the card says so. This is why `image_url`
   being nullable, in the original design, turned out to matter.
-- **What the security review changed.** A saved explanation is shown to
-  everyone and never replaced, so Gemini's answer is now checked more
-  strictly: the title and summary must be mostly Hebrew letters, with no HTML
-  and no links, and each tag may appear only once. A second migration adds
-  the title and summary length limits to the table too. The browser may only
-  load images from `assets.science.nasa.gov`. NASA's text is sent to Gemini
-  inside `<title>` and `<explanation>` tags, and cut at 8,000 characters.
-- **Known limitation: "never pay twice" can fail under parallel requests.**
-  The route checks for a saved explanation, then calls Gemini, then saves.
-  Those steps aren't one atomic step, so if many requests for the same new
-  date arrive at the same moment, each one finds nothing saved and each one
-  calls Gemini. Only one answer is saved (`on conflict (date) do nothing`),
-  and everyone gets that one, so users never see different answers; the
-  others are paid for and thrown away. Also, an answer that fails the Zod
-  check is not saved, so a date Gemini always answers badly costs a call
-  every time someone tries it. I chose not to fix this now: it needs someone
-  logged in sending requests on purpose, and the most it costs is a few extra
-  free-tier calls per date. The fix would be a small `explanation_claims`
-  table: a request first inserts a claim for the date, only the request whose
-  insert worked calls Gemini, the others answer `409` ("being explained, try
-  again in a moment"), and a failed call deletes its claim. With a per-user
-  limit on explain requests, that would also cover the retry case.
+- **A second Gemini model.** The design named no model. `explainInHebrew()` in
+  `server/lib/gemini.ts` asks `gemini-3.6-flash` first and, only if it isn't
+  answering, `gemini-3.5-flash-lite`. It doesn't try the second model when the
+  first one answers something invalid: that answer is a `502 invalid_ai_answer`,
+  not a reason to pay for a second one. The `model` column records which one
+  wrote each row, which is why it was in the table from the start.
+- **How long we wait.** The design said "doesn't answer in time" without a
+  number: it is 10 seconds for NASA and 25 seconds for each Gemini model
+  (thinking models are slow). A timeout answers `502`, like any other failure of
+  NASA or Gemini, as designed.
+- **"In the future" means after today in UTC.** The date check in
+  `apodDateParamSchema` compares with today's date in UTC, which can be a day
+  ahead of NASA's own clock. For that day NASA has no picture yet, so the answer
+  is `404 no_picture`, not an error of ours.
+- **What the security review changed.** A saved explanation is shown to everyone
+  and never replaced, so Gemini's answer is now checked more strictly: the title
+  and summary must be mostly Hebrew letters, with no HTML and no links, and each
+  tag may appear only once. A second migration adds the title and summary length
+  limits to the table too. The browser may only load images from
+  `assets.science.nasa.gov`. NASA's text is sent to Gemini inside `<title>` and
+  `<explanation>` tags, and cut at 8,000 characters.
+- **Known limitation: "never pay twice" can fail under parallel requests.** The
+  route checks for a saved explanation, then calls Gemini, then saves. Those
+  steps aren't one atomic step, so if many requests for the same new date arrive
+  at the same moment, each one finds nothing saved and each one calls Gemini.
+  Only one answer is saved (`on conflict (date) do nothing`), and everyone gets
+  that one, so users never see different answers; the others are paid for and
+  thrown away. Also, an answer that fails the Zod check is not saved, so a date
+  Gemini always answers badly costs a call every time someone tries it. I chose
+  not to fix this now: it needs someone logged in sending requests on purpose,
+  and the most it costs is a few extra free-tier calls per date. The fix would
+  be a small `explanation_claims` table: a request first inserts a claim for the
+  date, only the request whose insert worked calls Gemini, the others answer
+  `409` ("being explained, try again in a moment"), and a failed call deletes
+  its claim. With a per-user limit on explain requests, that would also cover
+  the retry case.
+
+### Parts 3 and 4 - design to code, home page
+
+No change to this design: neither part has a table or an endpoint. `/design`
+(the designer's Wizzin page) and `/` are pages in the browser only, and
+`/design` stays outside the login so the designer can run it without a `.env`.
+How its tablet and desktop layouts were decided is in
+`.claude/assignment/design-questions.md`.
