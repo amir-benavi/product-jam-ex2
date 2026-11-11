@@ -51,6 +51,15 @@ Designer's notes:
 
 Designer's notes:
 
+## Colour palette (added after the review)
+
+- [x] **The six colour squares are on the page**, as you asked after the review
+      (they were left out at first as a style guide). **Phone:** under the logo,
+      edge to edge, two in a row, square at 440px (up to 220px tall on wider
+      phones). **768:** three in a row, 660px wide, under the logo, as in the
+      desktop frame. **1280:** under the logo in the left column, next to the
+      opening text, as in the desktop frame. The rest of the page is unchanged.
+
 ## Profile (photo, stats, about card, skills)
 
 - **768:** photo and stats on the left, the about card on the right; under them,

@@ -31,6 +31,20 @@ const specialties = [
   { name: "Web Intaker", icon: "icon-web-intaker.svg" },
 ];
 
+/**
+ * The designer's colour palette, shown on the page as they asked. Each
+ * swatch's colour is a variable in the CSS (.swatch* classes), so the hex
+ * code here is only its label.
+ */
+const palette = [
+  { hex: "#FF3B27", className: styles.swatchRed },
+  { hex: "#DC9FE9", className: styles.swatchPurple },
+  { hex: "#000000", className: styles.swatchBlack },
+  { hex: "#F8F8FF", className: styles.swatchWhite },
+  { hex: "#BCEB44", className: styles.swatchLime },
+  { hex: "#648CD2", className: styles.swatchBlue },
+];
+
 export default function DesignPage() {
   return (
     <main className={styles.page}>
@@ -71,6 +85,17 @@ export default function DesignPage() {
         <h1 className={styles.logo}>
           <img src="/design/logo.svg" alt="Wizzin" width={389} height={106} />
         </h1>
+
+        <ul className={styles.palette} aria-label="Colour palette">
+          {palette.map((swatch) => (
+            <li
+              key={swatch.hex}
+              className={`${styles.swatch} ${swatch.className}`}
+            >
+              {swatch.hex}
+            </li>
+          ))}
+        </ul>
       </div>
 
       {/* A sample profile in the app. */}

@@ -45,6 +45,12 @@
   --wz-button: #ededed;
   --wz-button-light: #ffffff;
   --wz-button-text: #000000;
+  /* The rest of the palette (.palette); black and lime are above. */
+  --wz-red: #ff3b27;
+  --wz-purple: #dc9fe9;
+  --wz-white: #f8f8ff;
+  --wz-blue: #648cd2;
+  --wz-swatch-text: rgb(0 0 0 / 0.94);
 
   /* Figma's three text styles: body text, the bold condensed subheadings,
      and the display font for big names and numbers. Figma's mono font is
@@ -162,6 +168,53 @@
   inline-size: 24.3379rem;
   max-inline-size: 100%;
   block-size: auto;
+}
+
+/* === Colour palette ===================================================== */
+
+/* Six swatches, edge to edge, two in a row. Each row is as tall as a swatch
+   is wide (square), up to 220px: on phones wider than the 440px design they
+   get wider but not taller, so the palette doesn't fill the screen. */
+.palette {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: min(50vw, 13.75rem);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.swatch {
+  padding: 1.5625rem;
+  color: var(--wz-swatch-text);
+  font-size: 1.0625rem;
+  line-height: 1.4375rem;
+}
+
+.swatchRed {
+  background: var(--wz-red);
+  color: var(--wz-white);
+}
+
+.swatchPurple {
+  background: var(--wz-purple);
+}
+
+.swatchBlack {
+  background: var(--wz-solid);
+  color: var(--wz-white);
+}
+
+.swatchWhite {
+  background: var(--wz-white);
+}
+
+.swatchLime {
+  background: var(--wz-lime);
+}
+
+.swatchBlue {
+  background: var(--wz-blue);
 }
 
 /* === Photos ============================================================= */
@@ -709,6 +762,18 @@
     max-inline-size: 38rem;
   }
 
+  /* As in the desktop frame: three in a row, 660px wide, under the logo. */
+  .palette {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-auto-rows: auto;
+    inline-size: min(41.25rem, 100% - 2 * var(--wz-gutter));
+    margin-inline: auto;
+  }
+
+  .swatch {
+    aspect-ratio: 220 / 112.5; /* the frame's 220 × 112.5px swatches */
+  }
+
   /* Photo and stats next to the about card, the skills under both. */
   .profile {
     display: grid;
@@ -757,9 +822,15 @@
   .hero {
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 32rem);
-    grid-template-areas: "logo intro";
+    /* The palette under the logo; any extra height of the text goes below
+       the palette, so it stays 45px under the logo, as in the frame. */
+    grid-template-rows: auto 1fr;
+    grid-template-areas:
+      "logo intro"
+      "palette intro";
     align-items: start;
     column-gap: var(--wz-columns-gap);
+    row-gap: 2.8125rem;
     padding-inline: var(--wz-gutter);
   }
 
@@ -778,6 +849,12 @@
 
   .logo img {
     inline-size: 27.5rem; /* 440px, the logo's width in the desktop frame */
+  }
+
+  .palette {
+    grid-area: palette;
+    inline-size: min(41.25rem, 100%);
+    margin-inline: 0;
   }
 
   /* A profile page: photo, stats and about card on the left, the skills and
