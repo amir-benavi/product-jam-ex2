@@ -340,6 +340,8 @@
 
 /* The sample's buttons: they only show the look, so they are not <button>s. */
 .fakeButton {
+  /* The hand cursor, so the sample feels like the real app; a click does nothing. */
+  cursor: pointer;
   display: inline-flex;
   align-items: center;
   justify-content: center;

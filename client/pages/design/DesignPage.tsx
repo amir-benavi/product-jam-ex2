@@ -9,7 +9,8 @@ import styles from "./DesignPage.module.css";
  * The Hebrew parts explain the product, and are right-to-left. The English
  * parts are a sample of the app itself (a profile, specialties, mission
  * posts), so they stay left-to-right. The sample's buttons only show what the
- * app will look like: they are not <button>s, because they do nothing.
+ * app will look like: they are not <button>s, because they do nothing (they
+ * only show the hand cursor, so the sample feels real).
  *
  * Images and icons are in client/public/design/, exported from Figma.
  * Tablet and desktop layouts are a draft for the designer to review: see

@@ -12,7 +12,7 @@ Message them first.
 
 Claude can't do these: they need your accounts and secret keys.
 
-- [ ] Message the designer: get the Figma link, book a meeting for Tue
+- [x] Message the designer: get the Figma link, book a meeting for Tue
 - [x] Copy `ex2/answers.md` from the course repo to the repo root
 - [x] Supabase project → `cp .env.example .env` → fill it in
       (`docs/02-supabase-setup.md`)
@@ -93,6 +93,6 @@ Session: new session. `/figma-to-code <figma link>`.
 - [x] `answers.md` complete, variant (`four`) at the top
 - [x] Two fresh test accounts on the live app (`tester-a@example.com`,
       `tester-b@example.com`; the password is not in the repo)
-- [ ] All pages work on the live app, not only locally
-- [ ] Comment on the submission issue: repo URL, live URL, designer PR URL, two
+- [x] All pages work on the live app, not only locally
+- [x] Comment on the submission issue: repo URL, live URL, designer PR URL, two
       test accounts
